@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <random>
 #include <SFML/Graphics.hpp>
 #include <ctime>
 #include "Headers/Player.h"
@@ -8,6 +9,7 @@ struct Enemy {
     sf::Texture texture_;
     sf::Sprite sprite_;
     sf::Vector2f position_ = {10, 10};
+    sf::Vector2f correction_ = {0, 0};
     float health_ = 100;
     float damage_ = 100;
     float shield_ = 100;
@@ -33,5 +35,5 @@ public:
     void spawnNew();
     void drawAll(sf::RenderWindow& window, const Player& player) const;
     std::vector<Enemy*>& getEnemyDeque(int index);
-    void update(const float& delta_time, const Player& player);
+    void update(float const& delta_time, const Player& player);
 };

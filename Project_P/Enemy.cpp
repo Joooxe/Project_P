@@ -46,10 +46,10 @@ Enemy::Enemy(const std::string& link) {
     sprite_.scale(sf::Vector2f(4, 4));
 }
 
-void Enemy::update(const Player& player, const float& delta_time) {
-    sf::Vector2f delta = (player.getPosition() - position_) / distan(player.getPosition(), position_);
-    position_ += delta * delta_time * static_cast<float>(0.1);
-}
+//void Enemy::update(const Player& player, const float& delta_time) {
+//    sf::Vector2f delta = (player.getPosition() - position_) / distan(player.getPosition(), position_);
+//    position_ += delta * delta_time * static_cast<float>(0.1);
+//}
 
 void EnemyContainer::spawnNew() {
     time_t timer;
@@ -76,4 +76,14 @@ void EnemyContainer::update(const float& delta_time, const Player& player) {
     for(Enemy* enemy : container_) {
         enemy->update(player, delta_time);
     }
+}
+
+void Enemy::update(const Player& player, float const& delta_time) {
+    sf::Vector2f target = player.getPosition();
+    sf::Vector2f correction_change((double)rand() / RAND_MAX / 2.5f - 0.2, (double)rand() / RAND_MAX / 2.5f - 0.2);
+    correction_ += correction_change;
+    target += correction_;
+    sf::Vector2f delta = (target - position_) / distan(target, position_);
+    position_ += delta * delta_time * static_cast<float>(0.1);
+    //std::cout << "cringe";
 }

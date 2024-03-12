@@ -3,7 +3,7 @@
 Player::Player() {
     //std::cout << "Hero constructed" << '\n';
     if(hero_texture.loadFromFile("Resourses/hero/Side Movement.png")) {
-        std::cout << "hero loaded" << '\n';
+        std::cout << "hero loadedededed" << '\n';
     }
     hero_sprite.setTexture(hero_texture);
     hero_sprite.setTextureRect(sf::IntRect(24, 18, 9, 24));

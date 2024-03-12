@@ -1,6 +1,6 @@
 ﻿#include <SFML/Graphics.hpp>
 #include <filesystem>
-
+#include <iostream>
 #include "Headers\GameEngine.h"
 
 // Project_P.h : включаемый файл для стандартных системных включаемых файлов
