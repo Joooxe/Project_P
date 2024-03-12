@@ -6,7 +6,7 @@
 set(CMAKE_EXE_LINKER_FLAGS "-static -static-libgcc")
 set(SFML_STATIC_LIBRARIES TRUE)
 # Добавьте источник в исполняемый файл этого проекта.
-add_executable (Project_P "GameEngine.cpp" "Player.cpp"  "../include/Headers/GameEngine.h" "../include/Headers/Player.h"  "Animator.cpp")
+add_executable (Project_P "GameEngine.cpp" "Player.cpp" "Animator.cpp" "Map.cpp" "Enemy.cpp" "../include/Headers/GameEngine.h" "../include/Headers/Player.h" "../include/Headers/Animator.h" "../include/Headers/Map.h" "../include/Headers/Enemy.h")
 
 
 set(SFML_DIR "${CMAKE_SOURCE_DIR}//lib//cmake//SFML")

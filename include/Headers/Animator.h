@@ -2,6 +2,6 @@
 #include <iostream>
 
 class Animator {
-public:
+public:                        
     Animator(sf::Sprite);
 };

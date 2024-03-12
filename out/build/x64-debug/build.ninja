@@ -104,6 +104,24 @@ build Project_P\CMakeFiles\Project_P.dir\Animator.cpp.obj: CXX_COMPILER__Project
   TARGET_COMPILE_PDB = Project_P\CMakeFiles\Project_P.dir\
   TARGET_PDB = Project_P\Project_P.pdb
 
+build Project_P\CMakeFiles\Project_P.dir\Map.cpp.obj: CXX_COMPILER__Project_P_unscanned_Debug D$:\source\repos\Project_P\Project_P\Map.cpp || cmake_object_order_depends_target_Project_P
+  DEFINES = -DSFML_STATIC
+  FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Ob0 /Od /RTC1 -std:c++20 -ZI
+  INCLUDES = -external:ID:\source\repos\Project_P\include -external:W0
+  OBJECT_DIR = Project_P\CMakeFiles\Project_P.dir
+  OBJECT_FILE_DIR = Project_P\CMakeFiles\Project_P.dir
+  TARGET_COMPILE_PDB = Project_P\CMakeFiles\Project_P.dir\
+  TARGET_PDB = Project_P\Project_P.pdb
+
+build Project_P\CMakeFiles\Project_P.dir\Enemy.cpp.obj: CXX_COMPILER__Project_P_unscanned_Debug D$:\source\repos\Project_P\Project_P\Enemy.cpp || cmake_object_order_depends_target_Project_P
+  DEFINES = -DSFML_STATIC
+  FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Ob0 /Od /RTC1 -std:c++20 -ZI
+  INCLUDES = -external:ID:\source\repos\Project_P\include -external:W0
+  OBJECT_DIR = Project_P\CMakeFiles\Project_P.dir
+  OBJECT_FILE_DIR = Project_P\CMakeFiles\Project_P.dir
+  TARGET_COMPILE_PDB = Project_P\CMakeFiles\Project_P.dir\
+  TARGET_PDB = Project_P\Project_P.pdb
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target Project_P
@@ -112,7 +130,7 @@ build Project_P\CMakeFiles\Project_P.dir\Animator.cpp.obj: CXX_COMPILER__Project
 #############################################
 # Link the executable Project_P\Project_P.exe
 
-build Project_P\Project_P.exe: CXX_EXECUTABLE_LINKER__Project_P_Debug Project_P\CMakeFiles\Project_P.dir\GameEngine.cpp.obj Project_P\CMakeFiles\Project_P.dir\Player.cpp.obj Project_P\CMakeFiles\Project_P.dir\Animator.cpp.obj | D$:\source\repos\Project_P\lib\sfml-system-s-d.lib D$:\source\repos\Project_P\lib\sfml-window-s-d.lib D$:\source\repos\Project_P\lib\sfml-graphics-s-d.lib D$:\source\repos\Project_P\lib\sfml-audio-s-d.lib D$:\source\repos\Project_P\lib\sfml-network-s-d.lib D$:\source\repos\Project_P\lib\sfml-window-s-d.lib D$:\source\repos\Project_P\lib\freetype.lib D$:\source\repos\Project_P\lib\openal32.lib D$:\source\repos\Project_P\lib\vorbisfile.lib D$:\source\repos\Project_P\lib\vorbisenc.lib D$:\source\repos\Project_P\lib\vorbis.lib D$:\source\repos\Project_P\lib\ogg.lib D$:\source\repos\Project_P\lib\flac.lib D$:\source\repos\Project_P\lib\sfml-system-s-d.lib
+build Project_P\Project_P.exe: CXX_EXECUTABLE_LINKER__Project_P_Debug Project_P\CMakeFiles\Project_P.dir\GameEngine.cpp.obj Project_P\CMakeFiles\Project_P.dir\Player.cpp.obj Project_P\CMakeFiles\Project_P.dir\Animator.cpp.obj Project_P\CMakeFiles\Project_P.dir\Map.cpp.obj Project_P\CMakeFiles\Project_P.dir\Enemy.cpp.obj | D$:\source\repos\Project_P\lib\sfml-system-s-d.lib D$:\source\repos\Project_P\lib\sfml-window-s-d.lib D$:\source\repos\Project_P\lib\sfml-graphics-s-d.lib D$:\source\repos\Project_P\lib\sfml-audio-s-d.lib D$:\source\repos\Project_P\lib\sfml-network-s-d.lib D$:\source\repos\Project_P\lib\sfml-window-s-d.lib D$:\source\repos\Project_P\lib\freetype.lib D$:\source\repos\Project_P\lib\openal32.lib D$:\source\repos\Project_P\lib\vorbisfile.lib D$:\source\repos\Project_P\lib\vorbisenc.lib D$:\source\repos\Project_P\lib\vorbis.lib D$:\source\repos\Project_P\lib\ogg.lib D$:\source\repos\Project_P\lib\flac.lib D$:\source\repos\Project_P\lib\sfml-system-s-d.lib
   FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Ob0 /Od /RTC1 -ZI
   LINK_FLAGS = -static -static-libgcc /debug /INCREMENTAL /subsystem:console
   LINK_LIBRARIES = D:\source\repos\Project_P\lib\sfml-system-s-d.lib  D:\source\repos\Project_P\lib\sfml-window-s-d.lib  D:\source\repos\Project_P\lib\sfml-graphics-s-d.lib  D:\source\repos\Project_P\lib\sfml-audio-s-d.lib  D:\source\repos\Project_P\lib\sfml-network-s-d.lib  D:\source\repos\Project_P\lib\sfml-window-s-d.lib  OpenGL32.lib  gdi32.lib  legacy_stdio_definitions.lib  D:\source\repos\Project_P\lib\freetype.lib  D:\source\repos\Project_P\lib\openal32.lib  D:\source\repos\Project_P\lib\vorbisfile.lib  D:\source\repos\Project_P\lib\vorbisenc.lib  D:\source\repos\Project_P\lib\vorbis.lib  D:\source\repos\Project_P\lib\ogg.lib  D:\source\repos\Project_P\lib\flac.lib  D:\source\repos\Project_P\lib\sfml-system-s-d.lib  winmm.lib  ws2_32.lib  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib
