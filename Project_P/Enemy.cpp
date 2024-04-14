@@ -1,0 +1,84 @@
+#include "Headers/Enemy.h"
+#include <cmath>
+
+float distan(const sf::Vector2f& first, const sf::Vector2f& second) {
+    return sqrt((first.x - second.x) * (first.x - second.x) + (first.y - second.y) * (first.y - second.y));
+}
+
+
+sf::Vector2f Enemy::getPosition() const {
+    return position_;
+}
+
+void Enemy::setPosition(sf::Vector2f new_position) {
+    position_ = new_position;
+}
+
+void Enemy::draw(sf::RenderWindow& window, const Player& player) {
+    sf::Vector2f player_position = player.getPosition();
+    sf::Vector2f player_sprite_position = player.hero_sprite.getPosition();
+    enemy_sprite_.setPosition(player_sprite_position + position_ - player_position);
+    window.draw(enemy_sprite_);
+}
+
+float Enemy::getHealth() const {
+    return health_;
+}
+
+void Enemy::hit(Player& player) {
+    if(distan(player.getPosition(), position_) <= hit_distance) {
+        //std::cout << "HIT\n";
+    }
+}
+
+void Enemy::setTexture(sf::Texture& new_texture) {
+    enemy_sprite_.setTexture(new_texture);
+    enemy_sprite_.setTextureRect(sf::IntRect(1, 9, 29, 15));
+    enemy_sprite_.scale(sf::Vector2f(4, 4));
+}
+
+Enemy::Enemy(Animator& animator) {
+    setTexture(animator.getEnemyTexture());
+}
+//void Enemy::update(const Player& player, const float& delta_time) {
+//    sf::Vector2f delta = (player.getPosition() - position_) / distan(player.getPosition(), position_);
+//    position_ += delta * delta_time * static_cast<float>(0.1);
+//}
+
+void EnemyContainer::spawnNew(Animator& animator) {
+    if(container_.size() == kMaxContainerSize_) {
+        return;
+    }
+    time_t timer;
+    time(&timer);
+    if(timer - last_spawned_ >= 1) {
+        last_spawned_ = timer;
+        container_.push_back(new Enemy(animator));
+    }
+}
+
+void EnemyContainer::drawAll(sf::RenderWindow& window, const Player& player) const {
+    for(Enemy* enemy : container_) {
+        enemy->draw(window, player);
+    }
+}
+
+std::vector<Enemy*>& EnemyContainer::getEnemyDeque(int index) {
+    return container_;
+}
+
+void EnemyContainer::update(const float& delta_time, Animator& animator, const Player& player) {
+    spawnNew(animator);
+    for(Enemy* enemy : container_) {
+        enemy->update(player, animator, delta_time);
+    }
+}
+
+void Enemy::update(const Player& player, Animator& animator, float const& delta_time) {
+    sf::Vector2f target = player.getPosition();
+    sf::Vector2f correction_change((float)rand() / (float)RAND_MAX / 2.5f - 0.2, (float)rand() / (float)RAND_MAX / 2.5f - 0.2);
+    correction_ += correction_change;
+    target += correction_;
+    sf::Vector2f delta = (target - position_) / distan(target, position_);
+    position_ += delta * delta_time * static_cast<float>(0.1);
+}
