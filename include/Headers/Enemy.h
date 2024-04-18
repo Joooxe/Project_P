@@ -19,11 +19,11 @@ struct Enemy {
 
     [[nodiscard]] sf::Vector2f getPosition() const;
     void setPosition(sf::Vector2f);
-    void draw(sf::RenderWindow& window, const Player& player);
+    void draw(sf::RenderWindow& window, Player& player);
     [[nodiscard]] float getHealth() const;
     void hit(Player& player);
     void setTexture(sf::Texture& texture);
-    void update(const Player& player, Animator& animator, const float& delta_time);
+    void update(Player& player, Animator& animator, const float& delta_time);
 };
 
 
@@ -34,7 +34,8 @@ private:
     time_t last_spawned_ = 0;
 public:
     void spawnNew(Animator& animator);
-    void drawAll(sf::RenderWindow& window, const Player& player) const;
+    void drawAll(sf::RenderWindow& window, Player& player) const;
     std::vector<Enemy*>& getEnemyDeque(int index);
-    void update(float const& delta_time, Animator& animator, const Player& player);
+    void update(Player& player, Animator& animator, float const& delta_time);
+    sf::Vector2f getNearest(Player& player);
 };

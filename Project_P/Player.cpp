@@ -1,11 +1,12 @@
 #include "Headers/Player.h"
-Player::Player(Animator& animator) {
-    hero_sprite.setTexture(animator.getPlayerTexture());
+
+
+Player::Player() {
+    hero_sprite.setTexture(animPlayer.getPlayerTexture());
     hero_sprite.setTextureRect(sf::IntRect(24, 18, 9, 24));
     hero_sprite.scale(sf::Vector2f(4, 4));
 
-
-    load_area.setTexture(animator.getMapTexture());
+    load_area.setTexture(animPlayer.getMapTexture());
     upper_bound_height = load_area.getGlobalBounds().height - 2 * start_pos_y;
     upper_bound_width = load_area.getGlobalBounds().width - 2 * start_pos_x;
     load_area.setPosition(start_pos_x, start_pos_y);
@@ -28,84 +29,8 @@ void Player::resetPlayer() {
 
 
 void
-Player::move(playermove move_direction, float const& delta_time) { //delta_time here untill we setup this in update func
-    //sf::Vector2f add = {0, std::min(std::abs(upper_bound_height-position.y), default_move_speed * delta_time)};
-    if(move_direction != playermove::Dash) {
-        last_player_move = move_direction;
-    }
-    switch(move_direction) {
-    case playermove::DownLf:
-    {
-        sf::Vector2f add = {std::min(position.x, default_diagonal_move_speed * delta_time),
-                             -std::min(upper_bound_height - position.y, default_diagonal_move_speed * delta_time)};
-        load_area.move(add);
-        position -= add;
-        break;
-    }
-    case playermove::DownPressed:
-    {
-        sf::Vector2f add = {0,
-                            -std::min(upper_bound_height - position.y, default_move_speed * delta_time)};
-        load_area.move(add);
-        position -= add;
-        break;
-    }
-    case playermove::DownRg:
-    {
-        sf::Vector2f add = {-std::min(upper_bound_width - position.x, default_diagonal_move_speed * delta_time),
-                            -std::min(upper_bound_height - position.y, default_diagonal_move_speed * delta_time)};
-        load_area.move(add);
-        position -= add;
-        break;
-    }
-    case playermove::LeftPressed:
-    {
-        sf::Vector2f add = {std::min(position.x, default_move_speed * delta_time), 0};
-        load_area.move(add);
-        position -= add;
-        break;
-    }
-    case playermove::RightPressed:
-    {
-        sf::Vector2f add = {-std::min(upper_bound_width - position.x, default_move_speed * delta_time), 0};
-        load_area.move(add);
-        position -= add;
-        break;
-    }
-    case playermove::Stop:
-    {
-        break;
-    }
-    case playermove::UpLf:
-    {
-        sf::Vector2f add = {std::min(position.x, default_diagonal_move_speed * delta_time),
-                            std::min(position.y, default_diagonal_move_speed * delta_time)};
-        load_area.move(add);
-        position -= add;
-        break;
-    }
-    case playermove::UpPressed:
-    {
-        sf::Vector2f add = {0,
-                            std::min(position.y, default_move_speed * delta_time)};
-        load_area.move(add);
-        position -= add;
-        break;
-    }
-    case playermove::UpRg:
-    {
-        sf::Vector2f add = {-std::min(upper_bound_width - position.x, default_diagonal_move_speed * delta_time),
-                            std::min(position.y, default_diagonal_move_speed * delta_time)};
-        load_area.move(add);
-        position -= add;
-        break;
-    }
-    case playermove::Dash:
-    {
-        std::cout << " BIG DASH\n";
-        move(last_player_move, delta_time * 3);
-    }
-    }
+Player::move(playermove upd_move) {
+    move_direction = upd_move;
 }
 
 void Player::draw(sf::RenderWindow& window) const { //*wwwww
@@ -130,9 +55,102 @@ void Player::die() {
     /* наверное отправляем сигнал в гейм енджин */
 }
 
-void Player::update(sf::Time deltaTime, sf::Vector2i mousePosition) {
-    increaseCurHealth(getRegeneration());
-    setPosition(getPosition().x + speed_x, getPosition().y + speed_y);
+void Player::update(float const& delta_time) {
+    /*increaseCurHealth(getRegeneration());
+    setPosition(getPosition().x + speed_x, getPosition().y + speed_y);*/
+    int animInd = 0;
+    switch(move_direction) {
+    case playermove::DownLf:
+    {
+        sf::Vector2f add = {std::min(position.x, default_diagonal_move_speed * delta_time),
+                             -std::min(upper_bound_height - position.y, default_diagonal_move_speed * delta_time)};
+        load_area.move(add);
+        position -= add;
+        isAnimMove = true;
+        animInd = 1;
+        break;
+    }
+    case playermove::DownPressed:
+    {
+        sf::Vector2f add = {0,
+                            -std::min(upper_bound_height - position.y, default_move_speed * delta_time)};
+        load_area.move(add);
+        position -= add;
+        isAnimMove = true;
+        animInd = 2;
+        break;
+    }
+    case playermove::DownRg:
+    {
+        sf::Vector2f add = {-std::min(upper_bound_width - position.x, default_diagonal_move_speed * delta_time),
+                            -std::min(upper_bound_height - position.y, default_diagonal_move_speed * delta_time)};
+        load_area.move(add);
+        position -= add;
+        isAnimMove = true;
+        animInd = 3;
+        break;
+    }
+    case playermove::LeftPressed:
+    {
+        sf::Vector2f add = {std::min(position.x, default_move_speed * delta_time), 0};
+        load_area.move(add);
+        position -= add;
+        isAnimMove = true;
+        animInd = 4;
+        break;
+    }
+    case playermove::RightPressed:
+    {
+        sf::Vector2f add = {-std::min(upper_bound_width - position.x, default_move_speed * delta_time), 0};
+        load_area.move(add);
+        position -= add;
+        isAnimMove = true;
+        animInd = 5;
+        break;
+    }
+    case playermove::UpLf:
+    {
+        sf::Vector2f add = {std::min(position.x, default_diagonal_move_speed * delta_time),
+                            std::min(position.y, default_diagonal_move_speed * delta_time)};
+        load_area.move(add);
+        position -= add;
+        isAnimMove = true;
+        animInd = 6;
+        break;
+    }
+    case playermove::UpPressed:
+    {
+        sf::Vector2f add = {0,
+                            std::min(position.y, default_move_speed * delta_time)};
+        load_area.move(add);
+        position -= add;
+        isAnimMove = true;
+        animInd = 7;
+        break;
+    }
+    case playermove::UpRg:
+    {
+        sf::Vector2f add = {-std::min(upper_bound_width - position.x, default_diagonal_move_speed * delta_time),
+                            std::min(position.y, default_diagonal_move_speed * delta_time)};
+        load_area.move(add);
+        position -= add;
+        isAnimMove = true;
+        animInd = 8;
+        break;
+    }
+    case playermove::Stop:
+    {   
+        isAnimMove = true;
+        animInd = 0;
+        break;
+    }
+    }
+    
+    if(cur_health && isAnimMove) {
+        animPlayer.animatePlayer(delta_time, animInd, hero_sprite);
+    }
+    move_direction = playermove::Stop;
+    isAnimMove = false;
 }
 
 void Player::setPosition(float new_x, float new_y) {

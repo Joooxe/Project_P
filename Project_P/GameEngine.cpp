@@ -20,47 +20,59 @@ void GameEngine::run() {
         float delta_time = clock.getElapsedTime().asMicroseconds();
         clock.restart();
         delta_time = delta_time / 600;
-
+        //std::cout << delta_time << '\n';
         sf::Event event;
         while(window.pollEvent(event)) {
             if(event.type == sf::Event::Closed) {
                 window.close();
             }
         }
-        input(delta_time);
+        input();
         update(delta_time);
         draw();
     }
 }
 
-void GameEngine::input(float const& delta_time) { //delta_time here untill we setup this in update func
-    if(key::isKeyPressed(key::Escape)) {
-        window.close();
-    }
-    if(key::isKeyPressed(key::Space)) {
-        std::cout << "DASHED\n";
-        player.move(Player::playermove::Dash, delta_time);
-    } else if(key::isKeyPressed(key::A) && key::isKeyPressed(key::W)) {
-        player.move(Player::playermove::UpLf, delta_time);
-    } else if(key::isKeyPressed(key::A) && key::isKeyPressed(key::S)) {
-        player.move(Player::playermove::DownLf, delta_time);
-    } else if(key::isKeyPressed(key::W) && key::isKeyPressed(key::D)) {
-        player.move(Player::playermove::UpRg, delta_time);
-    } else if(key::isKeyPressed(key::D) && key::isKeyPressed(key::S)) {
-        player.move(Player::playermove::DownRg, delta_time);
-    } else if(key::isKeyPressed(key::A)) { //*
-        player.move(Player::playermove::LeftPressed, delta_time);
-    } else if(key::isKeyPressed(key::D)) {
-        player.move(Player::playermove::RightPressed, delta_time);
-    } else if(key::isKeyPressed(key::W)) {
-        player.move(Player::playermove::UpPressed, delta_time);
-    } else if(key::isKeyPressed(key::S)) { //*
-        player.move(Player::playermove::DownPressed, delta_time);
-    }
+void GameEngine::input() {
+        //sf::Event event;
+
+        //while(window.pollEvent(event)) {
+            if(key::isKeyPressed(key::Escape)) {
+                window.close();
+            }
+            if(key::isKeyPressed(key::Space)) {
+                std::cout << "DASHED\n";
+                player.move(Player::playermove::Dash);
+            } else if(key::isKeyPressed(key::A) && key::isKeyPressed(key::W)) {
+                player.move(Player::playermove::UpLf);
+            } else if(key::isKeyPressed(key::A) && key::isKeyPressed(key::S)) {
+                player.move(Player::playermove::DownLf);
+            } else if(key::isKeyPressed(key::W) && key::isKeyPressed(key::D)) {
+                player.move(Player::playermove::UpRg);
+            } else if(key::isKeyPressed(key::D) && key::isKeyPressed(key::S)) {
+                player.move(Player::playermove::DownRg);
+            } else if(key::isKeyPressed(key::A)) { //*
+                player.move(Player::playermove::LeftPressed);
+            } else if(key::isKeyPressed(key::D)) {
+                player.move(Player::playermove::RightPressed);
+            } else if(key::isKeyPressed(key::W)) {
+                player.move(Player::playermove::UpPressed);
+            } else if(key::isKeyPressed(key::S)) { //*
+                player.move(Player::playermove::DownPressed);
+            }
+            if(sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+                //std::cout << "mouse pos : " << (static_cast<float>(sf::Mouse::getPosition().x)) << " " << (static_cast<float>(sf::Mouse::getPosition().y)) << "\n";
+                sf::Vector2f a = coords_translator();
+                //std::cout << "NEARES: " << a.x << " " << a.y << "\n";
+                bulletContainer.spawnNew(animator, player, coords_translator());
+            }
+        //}
 }
 
 void GameEngine::update(float const& delta_time) {
-    enemyContainer.update(delta_time, animator, player);
+    player.update(delta_time);
+    enemyContainer.update(player, animator, delta_time);
+    bulletContainer.update(delta_time, animator, player);
 }
 
 void GameEngine::draw() {
@@ -68,6 +80,7 @@ void GameEngine::draw() {
     window.clear();
     player.loadArea(window);
     enemyContainer.drawAll(window, player);
+    bulletContainer.drawAll(window, player);
     player.draw(window);
     window.display();
     window.setView(main_view);
@@ -77,6 +90,15 @@ void GameEngine::draw() {
 void GameEngine::restart() {
     player.setCentre(window);
 }
+
+sf::Vector2f GameEngine::coords_translator() {
+    //sf::Vector2f otnos =  sf::Vector2f(window.getPosition().x - player.hero_sprite.getPosition().x,  window.getPosition().y + player.hero_sprite.getPosition().y) -  sf::Vector2f(sf::Mouse::getPosition().x, sf::Mouse::getPosition().y);
+    //std::cout << sf::Mouse::getPosition(window).x << " " << sf::Mouse::getPosition(window).y << "\n";
+    //std::cout << player.hero_sprite.getPosition().x << "  " << player.hero_sprite.getPosition().y << "\n";
+    sf::Vector2f otnos = sf::Vector2f(player.hero_sprite.getPosition().x, player.hero_sprite.getPosition().y) - sf::Vector2f(static_cast<float>(sf::Mouse::getPosition(window).x) * 800 / window.getSize().x, static_cast<float>(sf::Mouse::getPosition(window).y) * 600 / window.getSize().y);
+    return player.getPosition() - otnos;
+}
+
 
 int main() {
     std::unique_ptr<GameEngine> myGame = std::make_unique<GameEngine>();

@@ -14,7 +14,7 @@ void Enemy::setPosition(sf::Vector2f new_position) {
     position_ = new_position;
 }
 
-void Enemy::draw(sf::RenderWindow& window, const Player& player) {
+void Enemy::draw(sf::RenderWindow& window, Player& player) {
     sf::Vector2f player_position = player.getPosition();
     sf::Vector2f player_sprite_position = player.hero_sprite.getPosition();
     enemy_sprite_.setPosition(player_sprite_position + position_ - player_position);
@@ -57,7 +57,7 @@ void EnemyContainer::spawnNew(Animator& animator) {
     }
 }
 
-void EnemyContainer::drawAll(sf::RenderWindow& window, const Player& player) const {
+void EnemyContainer::drawAll(sf::RenderWindow& window, Player& player) const {
     for(Enemy* enemy : container_) {
         enemy->draw(window, player);
     }
@@ -67,18 +67,32 @@ std::vector<Enemy*>& EnemyContainer::getEnemyDeque(int index) {
     return container_;
 }
 
-void EnemyContainer::update(const float& delta_time, Animator& animator, const Player& player) {
+void EnemyContainer::update(Player& player, Animator& animator, const float& delta_time) {
     spawnNew(animator);
     for(Enemy* enemy : container_) {
         enemy->update(player, animator, delta_time);
     }
 }
 
-void Enemy::update(const Player& player, Animator& animator, float const& delta_time) {
+void Enemy::update(Player& player, Animator& animator, float const& delta_time) {
     sf::Vector2f target = player.getPosition();
     sf::Vector2f correction_change((float)rand() / (float)RAND_MAX / 2.5f - 0.2, (float)rand() / (float)RAND_MAX / 2.5f - 0.2);
     correction_ += correction_change;
     target += correction_;
     sf::Vector2f delta = (target - position_) / distan(target, position_);
     position_ += delta * delta_time * static_cast<float>(0.1);
+}
+
+sf::Vector2f EnemyContainer::getNearest(Player& player) {
+    float distance = 10000;
+    float calc_dist = 0;
+    size_t nearest_index = 0;
+    sf::Vector2f player_pos = player.getPosition();
+    for(size_t i = 0; i < container_.size(); ++i) {
+        if(distance > (calc_dist = distan(container_[i]->position_, player_pos))) {
+            distance = calc_dist;
+            nearest_index = i;
+        }
+    }
+    return container_[nearest_index]->position_;
 }

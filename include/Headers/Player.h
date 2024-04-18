@@ -12,6 +12,7 @@ class Player {
 public:
     float upper_bound_height; // граница прогружаемой области
     float upper_bound_width;
+    Animator animPlayer;
 
 
     enum class playermove {
@@ -27,7 +28,7 @@ public:
         Stop
     };
     // конструктор
-    Player(Animator& animator);
+    Player();
     ~Player() {
         std::cout << "hero ended up being macarooned";
     }
@@ -36,13 +37,13 @@ public:
     // установка параметров по умолчанию
     void resetPlayer(); //const sf::RenderWindow& window);
     // снаружи нам говорят, какая клавиша была нажата
-    void move(playermove move_direction, float const& delta_time); //delta_time here untill we setup this in update func
+    void move(playermove move_direction); //delta_time here untill we setup this in update func
     // получение урона игроком
     void hit(int damage);
     // смерть игрока
     void die();
     // выполняется в каждом цикле Гейм Енджина
-    void update(sf::Time deltaTime, sf::Vector2i mousePosition);
+    void update(float const& deltaTime);
     // геттеры и сеттеры для всех полей, которым это нужно
     sf::Vector2f getPosition() const;
     void setPosition(float new_x, float new_y);
@@ -74,7 +75,8 @@ public:
     void addY(float add);
 private:
     sf::Vector2f position;
-    playermove last_player_move;
+    playermove move_direction;
+    bool isAnimMove = false;
 
 
     std::time_t last_dashed;

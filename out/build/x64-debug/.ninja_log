@@ -1,7 +1,0 @@
-# ninja log v5
-14	1010	7319585840799157	Project_P/CMakeFiles/Project_P.dir/Player.cpp.obj	587f4c8f8d2304a3
-17	1009	7319585840789152	Project_P/CMakeFiles/Project_P.dir/Map.cpp.obj	d7e3177204c2c1ac
-8	1011	7319513845251593	Project_P/CMakeFiles/Project_P.dir/Animator.cpp.obj	b37df612a0093e4
-22	1037	7319585841069126	Project_P/CMakeFiles/Project_P.dir/Enemy.cpp.obj	63ca620953e2684e
-12	1554	7319585846221321	Project_P/CMakeFiles/Project_P.dir/GameEngine.cpp.obj	56e858dc47635f93
-1554	1895	7319585849184586	Project_P/Project_P.exe	3be5413dc21f6f89

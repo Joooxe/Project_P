@@ -3,7 +3,7 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 #include "Headers/Map.h"
-#include "Headers/Enemy.h"
+#include "Headers/Bullet.h"
 
 
 /*class GameEngine {
@@ -45,14 +45,17 @@ private:
     };
     Animator animator;
     sf::RenderWindow window;
-    Player player = Player(animator);
+    Player player = Player();
     sf::View main_view = sf::View(sf::FloatRect(0, 0, 800, 600));
     sf::IntRect playground_size;
     sf::VertexArray background;
     EnemyContainer enemyContainer;
+    BulletContainer bulletContainer;
+    float currentFrame;
 
-    void input(float const& delta_time); //delta_time here untill we setup this in update func
+    void input(); //delta_time here untill we setup this in update func
     void update(float const& delta_time);
+    sf::Vector2f coords_translator();
 
     void draw();
 
