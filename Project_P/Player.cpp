@@ -57,14 +57,12 @@ void Player::die() {
 void Player::update(float const& delta_time) {
     int animInd = 0;
     sf::Vector2f add;
+    isAnimMove = true;
     switch(move_direction) {
         case playermove::DownLf:
         {
             add = {std::min(position.x, default_diagonal_move_speed * delta_time),
                                 -std::min(upper_bound_height - position.y, default_diagonal_move_speed * delta_time)};
-            load_area.move(add);
-            position -= add;
-            isAnimMove = true;
             animInd = 1;
             break;
         }
@@ -72,9 +70,6 @@ void Player::update(float const& delta_time) {
         {
             add = {0,
                                 -std::min(upper_bound_height - position.y, default_move_speed * delta_time)};
-            load_area.move(add);
-            position -= add;
-            isAnimMove = true;
             animInd = 2;
             break;
         }
@@ -82,27 +77,18 @@ void Player::update(float const& delta_time) {
         {
             add = {-std::min(upper_bound_width - position.x, default_diagonal_move_speed * delta_time),
                                 -std::min(upper_bound_height - position.y, default_diagonal_move_speed * delta_time)};
-            load_area.move(add);
-            position -= add;
-            isAnimMove = true;
             animInd = 3;
             break;
         }
         case playermove::LeftPressed:
         {
             add = {std::min(position.x, default_move_speed * delta_time), 0};
-            load_area.move(add);
-            position -= add;
-            isAnimMove = true;
             animInd = 4;
             break;
         }
         case playermove::RightPressed:
         {
             add = {-std::min(upper_bound_width - position.x, default_move_speed * delta_time), 0};
-            load_area.move(add);
-            position -= add;
-            isAnimMove = true;
             animInd = 5;
             break;
         }
@@ -110,9 +96,6 @@ void Player::update(float const& delta_time) {
         {
             add = {std::min(position.x, default_diagonal_move_speed * delta_time),
                                 std::min(position.y, default_diagonal_move_speed * delta_time)};
-            load_area.move(add);
-            position -= add;
-            isAnimMove = true;
             animInd = 6;
             break;
         }
@@ -120,9 +103,6 @@ void Player::update(float const& delta_time) {
         {
             add = {0,
                                 std::min(position.y, default_move_speed * delta_time)};
-            load_area.move(add);
-            position -= add;
-            isAnimMove = true;
             animInd = 7;
             break;
         }
@@ -130,18 +110,18 @@ void Player::update(float const& delta_time) {
         {
             add = {-std::min(upper_bound_width - position.x, default_diagonal_move_speed * delta_time),
                                 std::min(position.y, default_diagonal_move_speed * delta_time)};
-            load_area.move(add);
-            position -= add;
-            isAnimMove = true;
             animInd = 8;
             break;
         }
         case playermove::Stop:
         {
-            isAnimMove = true;
             animInd = 0;
             break;
         }
+    }
+    if(animInd != 0) {
+        position -= add;
+        load_area.move(add);
     }
 
     if(cur_health && isAnimMove) {
