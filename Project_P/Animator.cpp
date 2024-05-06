@@ -3,7 +3,6 @@
 Animator::Animator() {
     #ifdef _WIN32
     map_texture_.loadFromFile("Resourses/map/map.png");
-    std::cerr << "MAP TEXTURE LOADED: " << map_texture_.getSize().x << " " << map_texture_.getSize().y << "\n";
     side_movement.loadFromFile("Resourses/hero/Side Movement.png");
     front_movement.loadFromFile("Resourses/hero/Front Movement.png");
     back_movement.loadFromFile("Resourses/hero/Back Movement.png");
@@ -13,10 +12,13 @@ Animator::Animator() {
     currentPlayerTexture = front_movement;
     #elif __linux__
     map_texture_.loadFromFile("../../Resourses/map/map.png");
-    std::cerr << "MAP TEXTURE LOADED: " << map_texture_.getSize().x << " " << map_texture_.getSize().y << "\n";
-    player_texture_.loadFromFile("../../Resourses/hero/Side Movement.png");
+    side_movement.loadFromFile("../../Resourses/hero/Side Movement.png");
+    front_movement.loadFromFile("../../Resourses/hero/Front Movement.png");
+    back_movement.loadFromFile("../../Resourses/hero/Back Movement.png");
     slime_texture_.loadFromFile("../../Resourses/enemy/slime/slime-Sheet.png");
     bullet_texture_.loadFromFile("../../Resourses/bullet/default_bullet.png");
+
+    currentPlayerTexture = front_movement;
     #endif
 }
 
@@ -25,7 +27,6 @@ sf::Texture& Animator::getMapTexture() {
 }
 
 sf::Texture& Animator::getPlayerTexture() {
-    std::cout << "GET\n";
     return currentPlayerTexture;
 }
 

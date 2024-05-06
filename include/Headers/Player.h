@@ -1,5 +1,7 @@
 #include <iostream>
-#include "Headers/Animator.h"
+#include <cmath>
+#include "Animator.h"
+
 
 const float default_move_speed = 0.1;
 const float default_diagonal_move_speed = 0.0707;
@@ -7,6 +9,7 @@ const float default_diagonal_move_speed = 0.0707;
 const float start_pos_x = 200;
 const float start_pos_y = 200;
 
+uint64_t now();
 
 class Player {
 public:

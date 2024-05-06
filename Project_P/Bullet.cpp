@@ -3,67 +3,76 @@
 #include <cmath>
 
 #include "Headers/Bullet.h"
-
-float abs(const sf::Vector2f& vect) {
-    return std::sqrt(vect.x * vect.x + vect.y + vect.y);
-}
+#include "Headers/Math.h"
 
 
-Bullet::Bullet(Player& spawn_coords, const sf::Vector2f& target) {
-    time(&spawn_time_);
+Bullet::Bullet(Player &spawn_coords, const sf::Vector2f &target) {
+    spawn_time_ = now();
     position_ = spawn_coords.getPosition(); //   + sf::Vector2f(24, 30);
     target_position_ = (target - spawn_coords.getPosition());
-    target_position_ /= abs(target_position_);
+    target_position_ /= modul(target_position_);
 }
 
-void Bullet::setSprite(Animator& animator) {
+void Bullet::setSprite(Animator &animator) {
     bullet_sprite_.setTexture(animator.getBulletTexture());
-    bullet_sprite_.setTextureRect(sf::IntRect(24, 18, 9, 24));
+    bullet_sprite_.setTextureRect(sf::IntRect(24, 18, 10, 10));
 }
 
-void Bullet::update(Player& player, float const& delta_time) {
+void Bullet::update(Player& player, float const &delta_time) {
     position_ += target_position_ * delta_time;
     bullet_sprite_.setPosition(player.hero_sprite.getPosition() + position_ - player.getPosition());
 }
 
-bool Bullet::alive(const time_t& timer) {
-    return (timer < (spawn_time_ + life_tyme_));
+bool Bullet::alive() {
+    return (now() < (spawn_time_ + life_time_));
 }
 
-void BulletContainer::spawnNew(Animator& animator, Player& player, const sf::Vector2f& target) {
-    time_t timer;
-    time(&timer);
-    if(timer < last_spawned_ + Bullet::delay_) {
-        return;
+void BulletContainer::spawnNew(Animator &animator, Player& player, const sf::Vector2f &target) {
+    uint64_t now = duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+
+    if (now > last_spawned_ + Bullet::delay_) {
+        last_spawned_ = now;
+        container_.push_back(new Bullet(player, target));
+        container_[container_.size() - 1]->setSprite(animator);
     }
-    last_spawned_ = timer;
-    container_.push_back(new Bullet(player, target));
-    container_[container_.size() - 1]->setSprite(animator);
 }
 
 
-void BulletContainer::drawAll(sf::RenderWindow& window, Player& player) const {
-    for(auto bullet : container_) {
+void BulletContainer::drawAll(sf::RenderWindow &window, Player &player) const {
+    for (auto bullet: container_) {
         window.draw(bullet->bullet_sprite_);
     }
 }
 
-void BulletContainer::update(const float& delta_time, Animator& animator, Player& player) {
-    if(container_.empty()) {
+void BulletContainer::update(const float &delta_time, Player &player, EnemyContainer& enemies) {
+    if (container_.empty()) {
         return;
     }
-    time_t timer;
-    time(&timer);
+
     int live_index = container_.size() - 1;
-    for(int bullet_index = 0; bullet_index < live_index; ++bullet_index) {
+    sf::Vector2f last_bullet_coords;
+    //std::cout << "update bullets" << live_index <<  "\n";
+    for (int bullet_index = 0; bullet_index < live_index; ) {
+        last_bullet_coords = container_[bullet_index]->position_;
         container_[bullet_index]->update(player, delta_time);
-        if(!container_[bullet_index]->alive(timer)) {
+        bool is_macarooned = !container_[bullet_index]->alive();
+        for (int enemy_index = 0; enemy_index < enemies.size(); ++enemy_index) {
+            if (distan(enemies[enemy_index]->position_, container_[bullet_index]->position_) < Bullet::hit_distance_) {
+                enemies[enemy_index]->getDamage(Bullet::hit_damage_);
+                is_macarooned = true;
+                break;
+            }
+        }
+        if (is_macarooned) {
             std::swap(container_[live_index], container_[bullet_index]);
             --live_index;
+            continue;
         }
+        ++bullet_index;
+
     }
     int dead_num = container_.size();
-    for(size_t dead = live_index + 1; dead < dead_num; ++dead) {
+    for (size_t dead = live_index + 1; dead < dead_num; ++dead) {
         container_.pop_back();
     }
 }

@@ -2,8 +2,7 @@
 // или включаемые файлы для конкретного проекта.
 #include <iostream>
 #include <SFML/Graphics.hpp>
-#include "Headers/Map.h"
-#include "Headers/Bullet.h"
+#include "Bullet.h"
 
 
 /*class GameEngine {
