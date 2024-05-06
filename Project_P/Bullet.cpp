@@ -11,11 +11,13 @@ Bullet::Bullet(Player &spawn_coords, const sf::Vector2f &target) {
     position_ = spawn_coords.getPosition(); //   + sf::Vector2f(24, 30);
     target_position_ = (target - spawn_coords.getPosition());
     target_position_ /= modul(target_position_);
+    bullet_sprite_.setPosition(-1000, -1000);
 }
 
 void Bullet::setSprite(Animator &animator) {
     bullet_sprite_.setTexture(animator.getBulletTexture());
-    bullet_sprite_.setTextureRect(sf::IntRect(24, 18, 10, 10));
+    bullet_sprite_.setTextureRect(sf::IntRect(0, 0, 16, 16));
+    bullet_sprite_.scale(sf::Vector2f(1.5, 1.5));
 }
 
 void Bullet::update(Player& player, float const &delta_time) {
