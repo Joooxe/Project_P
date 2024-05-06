@@ -56,96 +56,75 @@ void Player::die() {
 }
 
 void Player::update(float const& delta_time) {
-    /*increaseCurHealth(getRegeneration());
-    setPosition(getPosition().x + speed_x, getPosition().y + speed_y);*/
     int animInd = 0;
+    sf::Vector2f add;
+    isAnimMove = true;
     switch(move_direction) {
-    case playermove::DownLf:
-    {
-        sf::Vector2f add = {std::min(position.x, default_diagonal_move_speed * delta_time),
-                             -std::min(upper_bound_height - position.y, default_diagonal_move_speed * delta_time)};
-        load_area.move(add);
+        case playermove::DownLf:
+        {
+            add = {std::min(position.x, default_diagonal_move_speed * delta_time),
+                                -std::min(upper_bound_height - position.y, default_diagonal_move_speed * delta_time)};
+            animInd = 1;
+            break;
+        }
+        case playermove::DownPressed:
+        {
+            add = {0,
+                                -std::min(upper_bound_height - position.y, default_move_speed * delta_time)};
+            animInd = 2;
+            break;
+        }
+        case playermove::DownRg:
+        {
+            add = {-std::min(upper_bound_width - position.x, default_diagonal_move_speed * delta_time),
+                                -std::min(upper_bound_height - position.y, default_diagonal_move_speed * delta_time)};
+            animInd = 3;
+            break;
+        }
+        case playermove::LeftPressed:
+        {
+            add = {std::min(position.x, default_move_speed * delta_time), 0};
+            animInd = 4;
+            break;
+        }
+        case playermove::RightPressed:
+        {
+            add = {-std::min(upper_bound_width - position.x, default_move_speed * delta_time), 0};
+            animInd = 5;
+            break;
+        }
+        case playermove::UpLf:
+        {
+            add = {std::min(position.x, default_diagonal_move_speed * delta_time),
+                                std::min(position.y, default_diagonal_move_speed * delta_time)};
+            animInd = 6;
+            break;
+        }
+        case playermove::UpPressed:
+        {
+            add = {0,
+                                std::min(position.y, default_move_speed * delta_time)};
+            animInd = 7;
+            break;
+        }
+        case playermove::UpRg:
+        {
+            add = {-std::min(upper_bound_width - position.x, default_diagonal_move_speed * delta_time),
+                                std::min(position.y, default_diagonal_move_speed * delta_time)};
+            animInd = 8;
+            break;
+        }
+        case playermove::Stop:
+        {
+            animInd = 0;
+            break;
+        }
+    }
+    if(animInd != 0) {
         position -= add;
-        isAnimMove = true;
-        animInd = 1;
-        break;
-    }
-    case playermove::DownPressed:
-    {
-        sf::Vector2f add = {0,
-                            -std::min(upper_bound_height - position.y, default_move_speed * delta_time)};
         load_area.move(add);
-        position -= add;
-        isAnimMove = true;
-        animInd = 2;
-        break;
     }
-    case playermove::DownRg:
-    {
-        sf::Vector2f add = {-std::min(upper_bound_width - position.x, default_diagonal_move_speed * delta_time),
-                            -std::min(upper_bound_height - position.y, default_diagonal_move_speed * delta_time)};
-        load_area.move(add);
-        position -= add;
-        isAnimMove = true;
-        animInd = 3;
-        break;
-    }
-    case playermove::LeftPressed:
-    {
-        sf::Vector2f add = {std::min(position.x, default_move_speed * delta_time), 0};
-        load_area.move(add);
-        position -= add;
-        isAnimMove = true;
-        animInd = 4;
-        break;
-    }
-    case playermove::RightPressed:
-    {
-        sf::Vector2f add = {-std::min(upper_bound_width - position.x, default_move_speed * delta_time), 0};
-        load_area.move(add);
-        position -= add;
-        isAnimMove = true;
-        animInd = 5;
-        break;
-    }
-    case playermove::UpLf:
-    {
-        sf::Vector2f add = {std::min(position.x, default_diagonal_move_speed * delta_time),
-                            std::min(position.y, default_diagonal_move_speed * delta_time)};
-        load_area.move(add);
-        position -= add;
-        isAnimMove = true;
-        animInd = 6;
-        break;
-    }
-    case playermove::UpPressed:
-    {
-        sf::Vector2f add = {0,
-                            std::min(position.y, default_move_speed * delta_time)};
-        load_area.move(add);
-        position -= add;
-        isAnimMove = true;
-        animInd = 7;
-        break;
-    }
-    case playermove::UpRg:
-    {
-        sf::Vector2f add = {-std::min(upper_bound_width - position.x, default_diagonal_move_speed * delta_time),
-                            std::min(position.y, default_diagonal_move_speed * delta_time)};
-        load_area.move(add);
-        position -= add;
-        isAnimMove = true;
-        animInd = 8;
-        break;
-    }
-    case playermove::Stop:
-    {   
-        isAnimMove = true;
-        animInd = 0;
-        break;
-    }
-    }
-    
+
     if(cur_health && isAnimMove) {
         animPlayer.animatePlayer(delta_time, animInd, hero_sprite);
     }
