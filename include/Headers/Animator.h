@@ -1,6 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <vector>
+#include "Sound.h"
 
 class Animator {
 private:
@@ -30,4 +31,5 @@ public:
     sf::Texture& getEnemyTexture();
     sf::Texture& getBulletTexture();
     void animatePlayer(const float& delta_time, int animInd, sf::Sprite& hero_sprite);
+    void animateEnemy(const float& delta_time, int animInd, sf::Sprite& hero);
 };

@@ -1,20 +1,18 @@
 #include <SFML/Graphics.hpp>
 #include <cmath>
-/*
 
-sf::Vector2f operator+(const sf::Vector2f &first, const sf::Vector2f &second) {
-    return {first.x + second.x, first.y + second.y};
+
+float distan(const sf::Vector2f& first, const sf::Vector2f& second) {
+    return sqrt((first.x - second.x) * (first.x - second.x) + (first.y - second.y) * (first.y - second.y));
 }
 
-sf::Vector2f operator-(sf::Vector2f &vector) {
-    vector.x = -vector.x;
-    vector.y = -vector.y;
+float modul(const sf::Vector2f &vect) {
+    return std::sqrt(vect.x * vect.x + vect.y + vect.y);
 }
 
-sf::Vector2f operator-(const sf::Vector2f &first, const sf::Vector2f &second) {
-    return {first.x - second.x, first.y - second.y};
-}
-*/
 
+uint64_t now() {
+    return duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+}
 
 
