@@ -36,6 +36,7 @@ void BulletContainer::spawnNew(Animator &animator, Player& player, const sf::Vec
         last_spawned_ = now;
         container_.push_back(new Bullet(player, target));
         container_[container_.size() - 1]->setSprite(animator);
+        sound.playShoot();
     }
 }
 

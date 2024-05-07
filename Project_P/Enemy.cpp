@@ -79,6 +79,7 @@ void EnemyContainer::update(Player& player, Animator& animator, const float& del
         if (!container_[enemy_index]->alive()) {
             std::swap(container_[enemy_index], container_[--swap_index]);
             container_.pop_back();
+            sound.playEnemyDie();
         } else {
             ++enemy_index;
         }
@@ -86,12 +87,20 @@ void EnemyContainer::update(Player& player, Animator& animator, const float& del
 }
 
 void Enemy::update(Player& player, Animator& animator, float const& delta_time) {
+    int animInd = 0;
     sf::Vector2f target = player.getPosition();
     sf::Vector2f correction_change((float)rand() / (float)RAND_MAX / 2.5f - 0.2, (float)rand() / (float)RAND_MAX / 2.5f - 0.2);
     correction_ += correction_change;
     target += correction_;
     sf::Vector2f delta = (target - position_) / distan(target, position_);
     position_ += delta * delta_time * static_cast<float>(0.1);
+    if(position_.x > target.x) {
+        animInd = 1;
+    } else {
+        animInd = 2;
+    }
+    animEnemy.animateEnemy(delta_time, animInd, enemy_sprite_);
+
 }
 
 void Enemy::getDamage(const float &damage) {

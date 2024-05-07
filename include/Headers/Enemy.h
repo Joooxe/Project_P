@@ -10,7 +10,7 @@ struct Enemy {
     constexpr static uint64_t hit_delay_ = 100;
 
     sf::Sprite enemy_sprite_;
-
+    Animator animEnemy;
 
     sf::Vector2f position_ = {0, 0};
     sf::Vector2f correction_ = {0, 0};
@@ -43,6 +43,7 @@ private:
     static const size_t kMaxContainerSize_ = 100;
     std::vector<Enemy*> container_;
     time_t last_spawned_ = 0;
+    Sound sound;
 public:
     size_t size() const; // size of enemy container
     void spawnNew(Animator& animator);

@@ -1,5 +1,0 @@
-C:/Users/admin/source/repos/Project_P/out/build/x86-debug/CMakeFiles/edit_cache.dir
-C:/Users/admin/source/repos/Project_P/out/build/x86-debug/CMakeFiles/rebuild_cache.dir
-C:/Users/admin/source/repos/Project_P/out/build/x86-debug/Project_P/CMakeFiles/Project_P.dir
-C:/Users/admin/source/repos/Project_P/out/build/x86-debug/Project_P/CMakeFiles/edit_cache.dir
-C:/Users/admin/source/repos/Project_P/out/build/x86-debug/Project_P/CMakeFiles/rebuild_cache.dir

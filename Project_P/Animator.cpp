@@ -109,3 +109,23 @@ void Animator::animatePlayer(const float& delta_time, int animInd, sf::Sprite& h
     }
     }
 }
+
+void Animator::animateEnemy(const float& delta_time, int animInd, sf::Sprite& enemy) {
+    currentFrame += 0.008 * delta_time;
+    enemy.setTexture(slime_texture_);
+    if(currentFrame > 4) {
+        currentFrame -= 4;
+    }
+    switch(animInd) {
+    case 1:
+    {
+        enemy.setTextureRect(sf::IntRect(131 + 32 * int(currentFrame), 11, 27, 13));
+        break;
+    }
+    case 2:
+    {
+        enemy.setTextureRect(sf::IntRect(158 + 32 * int(currentFrame), 11, -27, 13));
+        break;
+    }
+    }
+}

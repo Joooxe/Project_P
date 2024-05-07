@@ -7,7 +7,7 @@ using namespace std::chrono;
 class Bullet {
 public:
     constexpr static const uint64_t life_time_ = 10000;
-    constexpr static const uint64_t delay_ = 200;
+    constexpr static const uint64_t delay_ = 300;
     constexpr static const float hit_distance_ = 100;
     constexpr static const float hit_damage_ = 34;
 
@@ -34,6 +34,7 @@ class BulletContainer {
 public: // *
     std::vector<Bullet*> container_;
     time_t last_spawned_ = 0;
+    Sound sound;
 public:
     void spawnNew(Animator& animator, Player& player, const sf::Vector2f& target);
     void drawAll(sf::RenderWindow& window, Player& player) const;

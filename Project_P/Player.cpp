@@ -58,58 +58,59 @@ void Player::update(float const& delta_time) {
     int animInd = 0;
     sf::Vector2f add;
     isAnimMove = true;
+    float speed = speed_modifier * delta_time;
     switch(move_direction) {
         case playermove::DownLf:
         {
-            add = {std::min(position.x, default_diagonal_move_speed * delta_time),
-                                -std::min(upper_bound_height - position.y, default_diagonal_move_speed * delta_time)};
+            add = {std::min(position.x, default_diagonal_move_speed * speed),
+                                -std::min(upper_bound_height - position.y, default_diagonal_move_speed * speed)};
             animInd = 1;
             break;
         }
         case playermove::DownPressed:
         {
             add = {0,
-                                -std::min(upper_bound_height - position.y, default_move_speed * delta_time)};
+                                -std::min(upper_bound_height - position.y, default_move_speed * speed)};
             animInd = 2;
             break;
         }
         case playermove::DownRg:
         {
-            add = {-std::min(upper_bound_width - position.x, default_diagonal_move_speed * delta_time),
-                                -std::min(upper_bound_height - position.y, default_diagonal_move_speed * delta_time)};
+            add = {-std::min(upper_bound_width - position.x, default_diagonal_move_speed * speed),
+                                -std::min(upper_bound_height - position.y, default_diagonal_move_speed * speed)};
             animInd = 3;
             break;
         }
         case playermove::LeftPressed:
         {
-            add = {std::min(position.x, default_move_speed * delta_time), 0};
+            add = {std::min(position.x, default_move_speed * speed), 0};
             animInd = 4;
             break;
         }
         case playermove::RightPressed:
         {
-            add = {-std::min(upper_bound_width - position.x, default_move_speed * delta_time), 0};
+            add = {-std::min(upper_bound_width - position.x, default_move_speed * speed), 0};
             animInd = 5;
             break;
         }
         case playermove::UpLf:
         {
-            add = {std::min(position.x, default_diagonal_move_speed * delta_time),
-                                std::min(position.y, default_diagonal_move_speed * delta_time)};
+            add = {std::min(position.x, default_diagonal_move_speed * speed),
+                                std::min(position.y, default_diagonal_move_speed * speed)};
             animInd = 6;
             break;
         }
         case playermove::UpPressed:
         {
             add = {0,
-                                std::min(position.y, default_move_speed * delta_time)};
+                                std::min(position.y, default_move_speed * speed)};
             animInd = 7;
             break;
         }
         case playermove::UpRg:
         {
-            add = {-std::min(upper_bound_width - position.x, default_diagonal_move_speed * delta_time),
-                                std::min(position.y, default_diagonal_move_speed * delta_time)};
+            add = {-std::min(upper_bound_width - position.x, default_diagonal_move_speed * speed),
+                                std::min(position.y, default_diagonal_move_speed * speed)};
             animInd = 8;
             break;
         }

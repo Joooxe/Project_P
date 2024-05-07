@@ -91,6 +91,8 @@ private:
     // текущая скорость по y
     float speed_y = 1;
 
+    float speed_modifier = 1.5;
+
 
     // максимум здоровья
     int max_health;
